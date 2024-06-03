@@ -79,6 +79,7 @@ def transitivity(product:list):
                     break
             else:
                 transitive_counter += 1
+                break
     
     if transitive_counter == len(product):
         output = 'Transitiva'
