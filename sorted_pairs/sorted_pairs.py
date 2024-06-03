@@ -12,8 +12,7 @@ def pair_product(pair_1:list, pair_2:list):
 
     return product
 
-def pair_relation(product:list):
-    condition = input('Cual va a ser la condicion de la relacion?: ')
+def pair_relation(product:list, condition:str):
     output = []
 
     try:
@@ -32,8 +31,7 @@ def pair_properties(product:list):
         a = symetry(product)
         b = transitivity(product)
         c = reflexivity(product)
-
-    output = [a, b, c]
+        output = {'symmetry':a, 'transitivity':b, 'reflexivity':c}
 
     return output
 
@@ -75,9 +73,12 @@ def transitivity(product:list):
 
     for x, y in product:
         for p, z in product:
-            if [x, y] in product and [y, z] in product and [z, x] in product:
+            if [y, z] in product:
+                if [x, z] in product:
+                    transitive_counter += 1
+                    break
+            else:
                 transitive_counter += 1
-                break
     
     if transitive_counter == len(product):
         output = 'Transitiva'
@@ -85,14 +86,3 @@ def transitivity(product:list):
         output = 'Anti Transitiva'
     
     return output
-
-pair_1 = pair_input('Ingrese los numeros del primer par separados por espacios: ').split()
-pair_2 = pair_input('Ingrese los numeros del segundo par separados por espacios: ').split()
-
-product = pair_product(pair_1, pair_2)
-
-R = pair_relation(product)
-print(R)
-
-Z = pair_properties(R)
-print(Z)
