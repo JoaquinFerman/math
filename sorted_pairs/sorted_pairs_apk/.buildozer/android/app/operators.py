@@ -73,12 +73,13 @@ def transitivity(product:list):
 
     for x, y in product:
         for p, z in product:
-            if [x, y] in product and [y, z] in product:
+            if [y, z] in product:
                 if [x, z] in product:
                     transitive_counter += 1
                     break
             else:
                 transitive_counter += 1
+                break
     
     if transitive_counter == len(product):
         output = 'Transitiva'
