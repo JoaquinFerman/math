@@ -20,7 +20,7 @@ Wsize.append(ancho)
 Wsize.append(alto)
 
 # tamaño prefijado para pantallas de computadoras (para pruebas)
-Wsize = (360, 600)
+# Wsize = (360, 600)
 Window.size = Wsize
 
 # inicia la construccion de la app
