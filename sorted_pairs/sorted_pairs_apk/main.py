@@ -74,6 +74,7 @@ class Matapp(MDApp):
             self.root.remove_widget(self.result_label)
             try:
                 self.root.remove_widget(self.type)
+                self.root.remove_widget(self.matrix)
                 self.root.remove_widget(self.symetry)
                 self.root.remove_widget(self.reflexivity)
                 self.root.remove_widget(self.transitivity)
@@ -110,7 +111,7 @@ class Matapp(MDApp):
             pos_hint = {'center_x':0.25, 'center_y':0.25},
             font_size = Wsize[1]/40,
             halign = 'center',
-            text_size=(Wsize[0]/2.01, None),
+            text_size=(Wsize[0]/2.1, None),
             color = (0, 0, 0, 1)
         )
 
@@ -120,7 +121,7 @@ class Matapp(MDApp):
                 pos_hint = {'center_x':0.75, 'center_y':0.25},
                 font_size = Wsize[1]/40,
                 halign = 'center',
-                text_size=(Wsize[0]/2.01, None),
+                text_size=(Wsize[0]/2.1, None),
                 color = (0, 0, 0, 1)
             )
             self.symetry = Label(
