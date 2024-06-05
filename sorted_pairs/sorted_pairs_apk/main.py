@@ -52,7 +52,7 @@ class Matapp(MDApp):
         title = Label(
             text = 'Calculadora de conjuntos',
             pos_hint = {'center_x':0.5, 'center_y':0.95},
-            font_size = Wsize[1]/35,
+            font_size = Wsize[1]/40,
             halign = 'center',
             color = (0, 0, 0, 1)
             )
@@ -73,10 +73,11 @@ class Matapp(MDApp):
         if cycle > 0:
             self.root.remove_widget(self.result_label)
             try:
+                self.root.remove_widget(self.type)
                 self.root.remove_widget(self.symetry)
-                self.root.remove_widget(self.relation_label)
-                self.root.remove_widget(self.transitivity)
                 self.root.remove_widget(self.reflexivity)
+                self.root.remove_widget(self.transitivity)
+                self.root.remove_widget(self.relation_label)
             except:
                 pass
 
@@ -94,7 +95,10 @@ class Matapp(MDApp):
 
         product = pair_product(pair_1, pair_2)
 
-        relation = pair_relation(product, condition)
+        relation_result = pair_relation(product, condition, pair_1, pair_2)
+
+        relation = relation_result['relation']
+        matrix = relation_result['relation_matrix']
 
         results = pair_properties(relation)
 
@@ -103,43 +107,77 @@ class Matapp(MDApp):
 
         self.result_label = Label(
             text = f'P = {product}',
-            pos_hint = {'center_x':0.5, 'center_y':0.33},
-            font_size = Wsize[1]/35,
+            pos_hint = {'center_x':0.25, 'center_y':0.25},
+            font_size = Wsize[1]/40,
             halign = 'center',
-            text_size=(Wsize[0], None),
+            text_size=(Wsize[0]/2.01, None),
             color = (0, 0, 0, 1)
         )
 
         try:
             self.relation_label = Label(
                 text = f'R = {relation}',
-                pos_hint = {'center_x':0.5, 'center_y':0.167},
-                font_size = Wsize[1]/35,
+                pos_hint = {'center_x':0.75, 'center_y':0.25},
+                font_size = Wsize[1]/40,
                 halign = 'center',
-                text_size=(Wsize[0], None),
+                text_size=(Wsize[0]/2.01, None),
                 color = (0, 0, 0, 1)
             )
             self.symetry = Label(
                 text = results['symmetry'],
-                pos_hint = {'center_x':0.5, 'center_y':0.6},
-                font_size = Wsize[1]/35,
+                pos_hint = {'center_x':0.25, 'center_y':0.6},
+                font_size = Wsize[1]/40,
                 halign = 'center',
                 color = (0, 0, 0, 1)
             )
             self.transitivity = Label(
                 text = results['transitivity'],
-                pos_hint = {'center_x':0.5, 'center_y':0.55},
-                font_size = Wsize[1]/35,
+                pos_hint = {'center_x':0.25, 'center_y':0.55},
+                font_size = Wsize[1]/40,
                 halign = 'center',
                 color = (0, 0, 0, 1)
             )
             self.reflexivity = Label(
                 text = results['reflexivity'],
-                pos_hint = {'center_x':0.5, 'center_y':0.5},
-                font_size = Wsize[1]/35,
+                pos_hint = {'center_x':0.25, 'center_y':0.5},
+                font_size = Wsize[1]/40,
                 halign = 'center',
                 color = (0, 0, 0, 1)
             )
+            matrix_text = ''
+            for line in matrix:
+                matrix_text += f'{line}\n'
+
+            self.matrix = Label(
+                text = matrix_text,
+                pos_hint = {'center_x':0.75, 'center_y':0.5},
+                font_size = Wsize[1]/40,
+                halign = 'center',
+                color = (0, 0, 0, 1),
+                text_size = (Wsize[0]/2, None)
+            )
+            flex = True if results['reflexivity'] == 'Reflexiva' else False
+            tran = True if results['transitivity'] == 'Transitiva' else False
+            sim = True if results['symmetry'] == 'Simetrica' else False
+
+            if flex and tran and sim:
+                result_type = 'Relacion de equivalencia'
+            elif flex and tran and not sim:
+                result_type = 'Conjunto parcialmente ordenado'
+            elif (flex and tran) or (flex and sim):
+                result_type = 'Relacion de dependencia'
+            elif not flex:
+                result_type = 'Relacion no reflexiva'
+
+            self.type = Label(
+                text = result_type,
+                pos_hint = {'center_x':0.25, 'center_y':0.45},
+                font_size = Wsize[1]/40,
+                halign = 'center',
+                color = (0, 0, 0, 1)
+            )
+            self.root.add_widget(self.type)
+            self.root.add_widget(self.matrix)
             self.root.add_widget(self.symetry)
             self.root.add_widget(self.transitivity)
             self.root.add_widget(self.reflexivity)

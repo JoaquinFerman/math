@@ -12,18 +12,26 @@ def pair_product(pair_1:list, pair_2:list):
 
     return product
 
-def pair_relation(product:list, condition:str):
+def pair_relation(product:list, condition:str, l1:list, l2:list):
     output = []
+    output_matrix = [[0]*len(l2) for _ in range(len(l1))]
+    cont_h = 0
+    cont_v = 0
 
-    try:
-        for x, y in product:
-            x, y = int(x), int(y)
+    for x, y in product:
+        x, y = int(x), int(y)
+        try:
             if eval(condition):
                 output.append([x, y])
-    except:
-        pass
+                output_matrix[cont_v][cont_h] = 1
+        except:
+            pass
+        cont_h += 1
+        if cont_h == len(l2):
+            cont_h = 0
+            cont_v += 1
 
-    return output
+    return {'relation':output, 'relation_matrix':output_matrix}
 
 def pair_properties(product:list):
     output = 'Relacion vacia'
@@ -38,12 +46,17 @@ def pair_properties(product:list):
 def symetry(product:list):
     output = 'No simetrica'
     symetry_counter = 0
+    anti_counter = 0
 
     for x, y in product:
         if [y, x] in product:
             symetry_counter += 1
+            if [x, x] in product:
+                anti_counter += 1
 
     if symetry_counter == 0:
+        output = 'Asimetrica'
+    elif symetry_counter == anti_counter:
         output = 'Anti Simetrica'
     elif symetry_counter == len(product):
         output = 'Simetrica'
